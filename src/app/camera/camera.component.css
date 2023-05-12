@@ -1,0 +1,17 @@
+.btn-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid var(--background-color);
+  padding: 12px;
+  margin-bottom: 25px;
+}
+
+.table-background-card {
+  background: white;
+  padding: 16px 32px 32px;
+  border-radius: 8px;
+  box-shadow: 0.2px 0.2px 1.8px rgba(46, 49, 143, 0.24);
+}
+
