@@ -8,6 +8,11 @@
     <webcam [height]="500" [width]="300" [trigger]="triggerObservable" (imageCapture)="handleImage($event)"
             *ngIf="showWebcam" [switchCamera]="nextWebcamObservable"></webcam>
   </div>
+ 
+  <div>
+    <canvas id="canvas"></canvas>
+    <video id="video"></video>
+  </div>
 
   <div *ngIf="errors.length > 0">
     <h4>Error Messages:</h4>

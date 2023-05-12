@@ -31,12 +31,17 @@ export class CameraComponent implements OnInit {
   takeSnapshot(): void {
     this.trigger.next();
 
+    console.log ("WE REACHED HERE");
+
     // Get a reference to the video element and canvas element
     const video = document.getElementById('video') as HTMLVideoElement;
     const canvas = document.createElement('canvas') as HTMLCanvasElement;
 
     // Set the canvas dimensions to match the video element
     canvas.width = video.videoWidth;
+
+    console.log ("BUT NOT HERE");
+
     canvas.height = video.videoHeight;
 
     // Draw the current frame of the video onto the canvas
@@ -53,28 +58,28 @@ export class CameraComponent implements OnInit {
     const imageDataUrl = canvas.toDataURL('image/jpeg');
 
     // Send the base64-encoded image to the Google Images search API endpoint
-    fetch('https://www.googleapis.com/customsearch/v1', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer AIzaSyDinCCdr2TB0JujH-skL-AMj1n5R6UwAC8',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({
-        q: 'search term',
-        searchType: 'image',
-        imgSize: 'medium',
-        imgType: 'photo',
-        imgDominantColor: 'black',
-        cx: '93d48a0cd46fd4c86',
-        safe: 'high',
-        num: 1,
-        start: 1,
-        exactTerms: 'search term',
-        imgUrl: imageDataUrl,
-        fileFormat: 'jpg'
+      fetch('https://www.googleapis.com/customsearch/v1', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer AIzaSyDCH7RlmJEzcXxs7t4bv1oQ6bn5sqI0Tc4 ',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          q: 'search term',
+          searchType: 'image',
+          imgSize: 'medium',
+          imgType: 'photo',
+          imgDominantColor: 'black',
+          cx: '93d48a0cd46fd4c86',
+          safe: 'high',
+          num: 1,
+          start: 1,
+          exactTerms: 'search term',
+          imgUrl: imageDataUrl,
+          fileFormat: 'jpg'
+        })
       })
-    })
       .then(response => {
         if (response.ok) {
           return response.json();
