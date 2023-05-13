@@ -23,7 +23,7 @@ API_SERVICE_NAME = 'customsearch'
 API_VERSION = 'v1'
 SEARCH_ENGINE_ID = 'c775d0dff03614e78'
 
-OPENAI_KEY = 'ask Alex'
+OPENAI_KEY = 'ask alex'
 
 BASE_URI = 'https://api.bing.microsoft.com/v7.0/images/visualsearch'
 SUBSCRIPTION_KEY = '438b8e05404840cd9726c5d9802f9f16'
@@ -65,7 +65,7 @@ def CallGPTAbout(keywords):
     response = openai.ChatCompletion.create(
         model='gpt-3.5-turbo',
         messages=payload['messages'],
-        max_tokens=2000,
+        max_tokens=512,
         n=1
     )
 
@@ -87,7 +87,14 @@ def search_image():
 
     HEADERS = {'Ocp-Apim-Subscription-Key': SUBSCRIPTION_KEY}
 
-    file = {'image' : ('myfile', open(image_path, 'rb'))}
+    # WATCH OUT, ONLY THE OLD IMAGE IS USED
+    # DANGER 
+    # DANGER
+    # DANGER
+    file = {'image' : ('myfile', open("test_image.jpg", 'rb'))}
+    # DANGER 
+    # DANGER
+    # DANGER
 
     #formData = '{"imageInfo":{"imageInsightsToken":"' + insightsToken + '", }, "knowledgeRequest":{"invokedSkills": ["SimilarImages"]}}'
 
@@ -96,9 +103,9 @@ def search_image():
     #file = {'image' : ('myfile', open(filePath, 'rb'))}
 
     try:
-        #response = requests.post(BASE_URI, headers=HEADERS, files=file)
-        #response.raise_for_status()
-        #save_json(response.json(), "response.json")
+        response = requests.post(BASE_URI, headers=HEADERS, files=file)
+        response.raise_for_status()
+        save_json(response.json(), "response.json")
         print("response JSON")
         #temporarily reload json
         with open("response.json", 'r') as file:
@@ -111,15 +118,13 @@ def search_image():
 
         
         #call gpt with prompt "What do you know about?"
-        # ~ gpt_reponse = CallGPTAbout(list_of_keywords)
-        # ~ print(gpt_reponse)
-
-        #print_json(response.json())
+        gpt_reponse = CallGPTAbout(list_of_keywords)
+        print(gpt_reponse)
         
     except Exception as ex:
         raise ex
     
-    response = make_response( {"message":"IT WORKS NOW"} );
+    response = make_response( {"message":gpt_reponse} );
     response.status_code = 200
     
     return response

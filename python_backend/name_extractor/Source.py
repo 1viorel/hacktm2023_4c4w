@@ -25,8 +25,13 @@ def ParseJsonResponseFromBing ( data, rvi = 3 ) :
   
   omega = []
   
+  if ( len ( sorted_dict ) > rvi ) :
+    rvi = len ( sorted_dict ) 
+  
+  print ( "SORT DICT PRINT" )
+  print ( sorted_dict )
+  
   for  i in range ( 0, rvi ) :
-    print ( sorted_dict [ i ] [ 0 ] )
     omega.append ( sorted_dict [ i ] [ 0 ] )
         
   return omega
