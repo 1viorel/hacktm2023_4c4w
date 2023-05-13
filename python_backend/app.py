@@ -46,11 +46,14 @@ def CallGPTAbout(keywords):
     # Prepare the list of messages
     message_list = [{'role': 'system', 'content': 'You are a helpful assistant.'}]
     user_msg = "What do you know about: "
+
     for msg in keywords:
         user_msg += msg
         user_msg += " "
+
     print(user_msg)
-    user_msg += ". Tell me some fun facts about this car, and also tell me its specifications"
+
+    user_msg += ". Tell me some fun facts about this car, and also tell me its specifications, in maximum 256 words."
     message_list.append({'role': 'user', 'content': user_msg})
 
     # Prepare the payload
