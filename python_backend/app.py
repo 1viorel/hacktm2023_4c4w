@@ -1,5 +1,6 @@
 import os
 from flask import Flask, request
+from flask_cors import CORS
 
 from googleapiclient.http import MediaIoBaseUpload
 import io
@@ -11,6 +12,7 @@ from googleapiclient.errors import HttpError
 from googleapiclient.http import MediaFileUpload
 
 app = Flask(__name__)
+CORS(app)
 
 # Replace 'YOUR_API_KEY' with your actual Google API key
 API_KEY = 'AIzaSyDCH7RlmJEzcXxs7t4bv1oQ6bn5sqI0Tc4 '
@@ -37,6 +39,7 @@ def search_image():
     #if 'image' not in request.files:
     #    return 'No image file found', 400
 
+    print(request.files)
     # Save the uploaded image to a temporary file
     image_file = request.files['image']
     image_path = 'uploaded_image.jpg'
@@ -67,4 +70,4 @@ def search_image():
         raise ex
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
