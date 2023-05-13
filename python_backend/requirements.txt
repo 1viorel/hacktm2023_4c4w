@@ -2,3 +2,5 @@ flask
 google-api-python-client
 google-reverse-search
 azure-cognitiveservices-search-visualsearch
+Flask-Cors
+openai

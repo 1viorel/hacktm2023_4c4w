@@ -50,13 +50,16 @@ export class CameraComponent implements OnInit {
 
     fetch('http://localhost:5000/search', {
       method: 'POST',
-      body: formData,
-      mode: 'no-cors',
+      body: formData
     })
-      .then(response => response)
-      .then(data => {
-        console.log('Success:', data);
-      })
+    .then ( response => response.json() )
+    .then ( response => {
+      console.log ( response )
+    })
+    .catch(error => {
+    // Handle any network or other errors
+    console.error('Error:', error);
+  });
   }
 
 
