@@ -1,12 +1,11 @@
 html, body {
   height: 100%;
+  margin: 0px !important;
 }
 
 body {
   font-family: 'Rubik-Regular', sans-serif;
   background: #F2F3F7;
-  color: #4D4E75;
-  padding: 30px;
 }
 
 h1 {
@@ -43,22 +42,21 @@ table {
   background-color: #74BDCB;
   border: none;
   color: white;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
+  padding: 10px;
+  font-size: 14px;
   border-radius: 5px;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
+  max-height: 35px;
+  display: flex;
+  align-items: center;
 }
 
-.primaryButton:hover {
-  background-color: #EFE7BC;
-  box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
-}
 
 .text {
   font-size: 100px;
 }
+
+:root {
+  --background-color: #F2F3F7;
+}
+
 

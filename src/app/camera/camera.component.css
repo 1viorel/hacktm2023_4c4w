@@ -1,17 +1,32 @@
 .btn-group {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  border-bottom: 2px solid var(--background-color);
   padding: 12px;
-  margin-bottom: 25px;
+  margin-bottom: 5px;
+  gap: 5px;
 }
 
 .table-background-card {
   background: white;
   padding: 16px 32px 32px;
-  border-radius: 8px;
-  box-shadow: 0.2px 0.2px 1.8px rgba(46, 49, 143, 0.24);
+  box-shadow: 0 0 10px #85888C;
+}
+
+.center-cam {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-button {
+  background-color: #1E1E23;
+  color: white;
+  padding: 20px;
+  font-size: 24px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
