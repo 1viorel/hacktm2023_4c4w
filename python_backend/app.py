@@ -18,12 +18,18 @@ API_SERVICE_NAME = 'customsearch'
 API_VERSION = 'v1'
 SEARCH_ENGINE_ID = 'c775d0dff03614e78'
 
+OPENAI_KEY = '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'
+
 BASE_URI = 'https://api.bing.microsoft.com/v7.0/images/visualsearch'
 SUBSCRIPTION_KEY = '438b8e05404840cd9726c5d9802f9f16'
 
 def print_json(obj):
     """Print the object as json"""
     print(json.dumps(obj, sort_keys=True, indent=2, separators=(',', ': ')))
+
+def save_json(obj, file_path):
+    with open(file_path, "w") as json_file:
+        json.dump(obj, json_file)
 
 @app.route('/search', methods=['POST'])
 def search_image():
@@ -49,7 +55,13 @@ def search_image():
     try:
         response = requests.post(BASE_URI, headers=HEADERS, files=file)
         response.raise_for_status()
-        print_json(response.json())
+        save_json(response.json(), "response.json")
+
+        #call word counter
+
+        #call gpt with prompt "What do you know about?"
+        
+        #print_json(response.json())
         
     except Exception as ex:
         raise ex
