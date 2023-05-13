@@ -77,7 +77,7 @@ export class CameraComponent implements OnInit {
 
   handleImage(webcamImage: WebcamImage) {
     this.webcamImage = webcamImage;
-    this.showWebcam = false;
+    //this.showWebcam = false;
     console.info('received webcam image', this.webcamImage);
   }
 

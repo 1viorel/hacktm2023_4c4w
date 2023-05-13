@@ -20,7 +20,7 @@ nav {
   flex-direction: column;
   position: relative;
   top: 25px;
-  left: 25px;
+  padding-left: 25px;
   z-index: 1;
   -webkit-user-select: none;
   user-select: none;
@@ -84,7 +84,7 @@ nav {
 {
   position: absolute;
   width: 180px;
-  height: 400px;
+  height: 625px;
   box-shadow: 0 0 10px #85888C;
   margin: -50px 0 0 -50px;
   padding: 50px;
@@ -105,4 +105,11 @@ nav {
 #menuToggle input:checked ~ ul
 {
   transform: none;
+}
+
+.extra {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

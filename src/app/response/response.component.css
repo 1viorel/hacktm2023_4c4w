@@ -1,0 +1,16 @@
+.table-background-card {
+  background: darkseagreen;
+  padding: 16px 32px 32px;
+  box-shadow: 0 0 10px darkseagreen;
+  margin: 20px;
+  height: 150px;
+}
+
+.center-text{
+  color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+}
