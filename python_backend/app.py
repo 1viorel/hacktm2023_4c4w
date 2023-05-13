@@ -3,6 +3,8 @@ from flask import Flask, request
 
 from googleapiclient.http import MediaIoBaseUpload
 import io
+from GoogleSearch import Search
+import requests, json
 
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
@@ -16,6 +18,13 @@ API_SERVICE_NAME = 'customsearch'
 API_VERSION = 'v1'
 SEARCH_ENGINE_ID = 'c775d0dff03614e78'
 
+BASE_URI = 'https://api.bing.microsoft.com/v7.0/images/visualsearch'
+SUBSCRIPTION_KEY = '438b8e05404840cd9726c5d9802f9f16'
+
+def print_json(obj):
+    """Print the object as json"""
+    print(json.dumps(obj, sort_keys=True, indent=2, separators=(',', ': ')))
+
 @app.route('/search', methods=['POST'])
 def search_image():
     # Check if the 'image' file is present in the request
@@ -23,53 +32,27 @@ def search_image():
     #    return 'No image file found', 400
 
     # Save the uploaded image to a temporary file
-    #image_file = request.files['image']
-    #image_path = '/tmp/uploaded_image.jpg'
-    #image_file.save(image_path)
-    image_path = "test_image.jpg"
+    image_file = request.files['image']
+    image_path = 'uploaded_image.jpg'
+    image_file.save(image_path)
 
-    # Create a Google API client
+    HEADERS = {'Ocp-Apim-Subscription-Key': SUBSCRIPTION_KEY}
+
+    file = {'image' : ('myfile', open(image_path, 'rb'))}
+
+    #formData = '{"imageInfo":{"imageInsightsToken":"' + insightsToken + '", }, "knowledgeRequest":{"invokedSkills": ["SimilarImages"]}}'
+
+    #file = {'knowledgeRequest': (None, formData)}
+
+    #file = {'image' : ('myfile', open(filePath, 'rb'))}
+
     try:
-        service = build(API_SERVICE_NAME, API_VERSION, developerKey=API_KEY)
-    except Exception as e:
-        return f'Error creating Google API client: {e}', 500
-    
-    # Read the image file
-    with io.open(image_path, 'rb') as f:
-
-        # Upload the image to Google for image search
-        try:
-            media = MediaIoBaseUpload(f, mimetype='image/jpeg')
-            request = service.cse().list(
-                q='',
-                cx=SEARCH_ENGINE_ID,
-                num=10,
-                searchType='image',
-                imgType='photo',
-                imgSize='MEDIUM',
-                fileType='jpg',
-                safe='off'
-            )
-            response = request.execute()
-        except HttpError as e:
-            error_message = e.content if hasattr(e, 'content') else str(e)
-            return f'Error executing Google image search: {error_message}', 500
-        except Exception as e:
-            return f'Error executing Google image search: {e}', 500
-
-        print(response)
-        # Process the search results
-        items = response.get('items', [])
-        search_results = []
-        for item in items:
-            search_results.append({
-                'title': item['title'],
-                'link': item['link'],
-                'thumbnail': item['image']['thumbnailLink']
-            })
-
-        # Return the search results as JSON
-        return {'results': search_results, 'response': response}
+        response = requests.post(BASE_URI, headers=HEADERS, files=file)
+        response.raise_for_status()
+        print_json(response.json())
+        
+    except Exception as ex:
+        raise ex
 
 if __name__ == '__main__':
     app.run()
