@@ -10,13 +10,16 @@ import { Observable, Subject } from 'rxjs';
 export class CameraComponent implements OnInit {
   @Output() getPicture = new EventEmitter<WebcamImage>();
   showWebcam = true;
+
   isCameraExist = true;
+  captureImage  = '';
 
   errors: WebcamInitError[] = [];
 
   // webcam snapshot trigger
   private trigger: Subject<void> = new Subject<void>();
   private nextWebcam: Subject<boolean | string> = new Subject<boolean | string>();
+  public webcamImage!: WebcamImage;
 
   constructor() { }
 
@@ -31,67 +34,29 @@ export class CameraComponent implements OnInit {
   takeSnapshot(): void {
     this.trigger.next();
 
-    // Get a reference to the video element and canvas element
-    const video = document.getElementById('video') as HTMLVideoElement;
-    const canvas = document.createElement('canvas') as HTMLCanvasElement;
+    let block = this.webcamImage.imageAsDataUrl.split(";");
+    const base64ImageContent = this.webcamImage.imageAsDataUrl.split(',')[1];
+    const byteArray = atob(base64ImageContent);
+    const file = new File(
+      [new Uint8Array([...byteArray].map(char => char.charCodeAt(0)))],
+      'image.png',
+      { type: 'image/png' }
+    );
 
-    // Set the canvas dimensions to match the video element
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
+    const formData = new FormData();
+    formData.append('image', file);
 
-    // Draw the current frame of the video onto the canvas
-    const context = canvas.getContext('2d');
-    if (context) {
-      context.drawImage(video, 0, 0, canvas.width, canvas.height);
-      const imageDataUrl = canvas.toDataURL('image/jpeg');
-      // ...rest of the code...
-    } else {
-      console.error('Canvas context is null');
-    }
+    console.log(formData);
 
-    // Convert the canvas image to a base64-encoded string
-    const imageDataUrl = canvas.toDataURL('image/jpeg');
-
-    // Send the base64-encoded image to the Google Images search API endpoint
-    fetch('https://www.googleapis.com/customsearch/v1', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer AIzaSyDinCCdr2TB0JujH-skL-AMj1n5R6UwAC8',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({
-        q: 'search term',
-        searchType: 'image',
-        imgSize: 'medium',
-        imgType: 'photo',
-        imgDominantColor: 'black',
-        cx: '93d48a0cd46fd4c86',
-        safe: 'high',
-        num: 1,
-        start: 1,
-        exactTerms: 'search term',
-        imgUrl: imageDataUrl,
-        fileFormat: 'jpg'
-      })
+    fetch('http://localhost:5000/search', {
+      method: 'POST',
+      body: formData,
+      mode: 'no-cors',
     })
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error('API Error');
-        }
-      })
+      .then(response => response.json())
       .then(data => {
-        if (data.items && data.items.length > 0) {
-          const img = document.createElement('img');
-          img.src = data.items[0].link;
-          document.body.appendChild(img);
-        }
+        console.log('Success:', data);
       })
-      .catch(error => {
-        console.error(error);
-      });
   }
 
 
@@ -108,8 +73,9 @@ export class CameraComponent implements OnInit {
   }
 
   handleImage(webcamImage: WebcamImage) {
-    this.getPicture.emit(webcamImage);
+    this.webcamImage = webcamImage;
     this.showWebcam = false;
+    console.info('received webcam image', this.webcamImage);
   }
 
   get triggerObservable(): Observable<void> {
@@ -120,4 +86,26 @@ export class CameraComponent implements OnInit {
     return this.nextWebcam.asObservable();
   }
 
+  b64toBlob(b64Data: any, contentType: string) {
+    contentType = contentType || '';
+    let sliceSize = 512;
+
+    var byteCharacters = atob(b64Data); // window.atob(b64Data)
+    var byteArrays = [];
+
+    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+      var byteNumbers = new Array(slice.length);
+      for (var i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+
+      var byteArray = new Uint8Array(byteNumbers);
+
+      byteArrays.push(byteArray);
+    }
+
+    return new Blob(byteArrays, {type: contentType});
+  }
 }

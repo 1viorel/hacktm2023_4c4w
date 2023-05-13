@@ -1,5 +1,6 @@
 import os
 from flask import Flask, request
+from flask_cors import CORS
 
 from googleapiclient.http import MediaIoBaseUpload
 import io
@@ -11,12 +12,15 @@ from googleapiclient.errors import HttpError
 from googleapiclient.http import MediaFileUpload
 
 app = Flask(__name__)
+CORS(app)
 
 # Replace 'YOUR_API_KEY' with your actual Google API key
 API_KEY = 'AIzaSyDCH7RlmJEzcXxs7t4bv1oQ6bn5sqI0Tc4 '
 API_SERVICE_NAME = 'customsearch'
 API_VERSION = 'v1'
 SEARCH_ENGINE_ID = 'c775d0dff03614e78'
+
+OPENAI_KEY = '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'
 
 BASE_URI = 'https://api.bing.microsoft.com/v7.0/images/visualsearch'
 SUBSCRIPTION_KEY = '438b8e05404840cd9726c5d9802f9f16'
@@ -25,12 +29,17 @@ def print_json(obj):
     """Print the object as json"""
     print(json.dumps(obj, sort_keys=True, indent=2, separators=(',', ': ')))
 
+def save_json(obj, file_path):
+    with open(file_path, "w") as json_file:
+        json.dump(obj, json_file)
+
 @app.route('/search', methods=['POST'])
 def search_image():
     # Check if the 'image' file is present in the request
     #if 'image' not in request.files:
     #    return 'No image file found', 400
 
+    print(request.files)
     # Save the uploaded image to a temporary file
     image_file = request.files['image']
     image_path = 'uploaded_image.jpg'
@@ -49,10 +58,16 @@ def search_image():
     try:
         response = requests.post(BASE_URI, headers=HEADERS, files=file)
         response.raise_for_status()
-        print_json(response.json())
+        save_json(response.json(), "response.json")
+
+        #call word counter
+
+        #call gpt with prompt "What do you know about?"
+        
+        #print_json(response.json())
         
     except Exception as ex:
         raise ex
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
