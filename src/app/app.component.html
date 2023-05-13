@@ -1,10 +1,12 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 <app-header></app-header>
 <app-camera (getPicture)="handleImage($event)"></app-camera>
 
 <div class="webcam-image" *ngIf="webcamImage">
   <img [src]="webcamImage.imageAsDataUrl" />
 </div>
-
+<app-response></app-response>
 <app-footer></app-footer>
 
 

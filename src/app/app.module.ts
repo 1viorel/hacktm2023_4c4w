@@ -10,6 +10,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from './header/header.component';
 import {MatIconModule} from '@angular/material/icon';
 import { FooterComponent } from './footer/footer.component';
+import { ResponseComponent } from './response/response.component';
+import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {MatButtonModule} from "@angular/material/button";
+
 
 
 
@@ -19,6 +23,7 @@ import { FooterComponent } from './footer/footer.component';
     CameraComponent,
     HeaderComponent,
     FooterComponent,
+    ResponseComponent,
   ],
   imports: [
     BrowserModule,
@@ -26,7 +31,9 @@ import { FooterComponent } from './footer/footer.component';
     AppRoutingModule,
     WebcamModule,
     BrowserAnimationsModule,
-    MatIconModule
+    MatIconModule,
+    MatProgressBarModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -59,4 +59,25 @@ table {
   --background-color: #F2F3F7;
 }
 
+@keyframes move-it {
+  0% {
+    background-position: initial;
+  }
+  100% {
+    background-position: 100px 0px;
+  }
+}
+
+body {
+  background: repeating-linear-gradient(
+    45deg,
+    darkseagreen,
+    darkseagreen 5%,
+    black 5%,
+    black 10%
+  );
+  background-size: 100px 100px;
+  animation: move-it 2s linear infinite;
+}
+
 

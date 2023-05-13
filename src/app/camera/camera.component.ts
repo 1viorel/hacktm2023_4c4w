@@ -53,7 +53,7 @@ export class CameraComponent implements OnInit {
       body: formData,
       mode: 'no-cors',
     })
-      .then(response => response.json())
+      .then(response => response)
       .then(data => {
         console.log('Success:', data);
       })
@@ -74,7 +74,7 @@ export class CameraComponent implements OnInit {
 
   handleImage(webcamImage: WebcamImage) {
     this.webcamImage = webcamImage;
-    this.showWebcam = false;
+    //this.showWebcam = false;
     console.info('received webcam image', this.webcamImage);
   }
 
