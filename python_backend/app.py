@@ -56,9 +56,10 @@ def search_image():
     #file = {'image' : ('myfile', open(filePath, 'rb'))}
 
     try:
-        response = requests.post(BASE_URI, headers=HEADERS, files=file)
-        response.raise_for_status()
-        save_json(response.json(), "response.json")
+        #response = requests.post(BASE_URI, headers=HEADERS, files=file)
+        #response.raise_for_status()
+        #save_json(response.json(), "response.json")
+        print("response JSON")
 
         #call word counter
 
