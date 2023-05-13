@@ -12,6 +12,7 @@ export class ResponseComponent {
 
   constructor(private readonly _http: HttpClient) { }
 
+
   getApiResponse() {
     this._http.get<any>(this._apiUrl).subscribe((response: string) => {
       console.log(response); // Log the response string to the console for debugging purposes
