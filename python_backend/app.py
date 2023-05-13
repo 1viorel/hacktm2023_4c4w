@@ -69,7 +69,8 @@ def search_image():
     except Exception as ex:
         raise ex
     
-    return "GPT response"
+    response = {'message': 'GPT Response'}
+    return response, 200
 
 if __name__ == '__main__':
     app.run(debug=True)
