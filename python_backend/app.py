@@ -1,6 +1,6 @@
 import os
 import openai
-from flask import Flask, request
+from flask import Flask, request, make_response
 from flask_cors import CORS
 
 from googleapiclient.http import MediaIoBaseUpload
@@ -15,7 +15,7 @@ from googleapiclient.http import MediaFileUpload
 from name_extractor.Source import ParseJsonResponseFromBing
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "http://localhost:4200"}})
 
 # Replace 'YOUR_API_KEY' with your actual Google API key
 API_KEY = 'AIzaSyDCH7RlmJEzcXxs7t4bv1oQ6bn5sqI0Tc4 '
@@ -23,7 +23,7 @@ API_SERVICE_NAME = 'customsearch'
 API_VERSION = 'v1'
 SEARCH_ENGINE_ID = 'c775d0dff03614e78'
 
-OPENAI_KEY = 'ask alex'
+OPENAI_KEY = 'ask Alex'
 
 BASE_URI = 'https://api.bing.microsoft.com/v7.0/images/visualsearch'
 SUBSCRIPTION_KEY = '438b8e05404840cd9726c5d9802f9f16'
@@ -111,16 +111,18 @@ def search_image():
 
         
         #call gpt with prompt "What do you know about?"
-        gpt_reponse = CallGPTAbout(list_of_keywords)
-        print(gpt_reponse)
+        # ~ gpt_reponse = CallGPTAbout(list_of_keywords)
+        # ~ print(gpt_reponse)
 
         #print_json(response.json())
         
     except Exception as ex:
         raise ex
     
-    response = {'message': gpt_reponse}
-    return response, 200
+    response = make_response( {"message":"IT WORKS NOW"} );
+    response.status_code = 200
+    
+    return response
 
 if __name__ == '__main__':
     app.run(debug=True)
