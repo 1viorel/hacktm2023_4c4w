@@ -30,8 +30,3 @@ def ParseJsonResponseFromBing ( data, rvi = 3 ) :
     omega.append ( sorted_dict [ i ] [ 0 ] )
         
   return omega
-
-with open('response.json') as file:
-    data = json.load(file)
-    
-ParseJsonResponseFromBing ( data )
