@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { WebcamImage, WebcamInitError, WebcamUtil } from 'ngx-webcam';
 import { Observable, Subject } from 'rxjs';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-camera',
@@ -8,6 +9,7 @@ import { Observable, Subject } from 'rxjs';
   styleUrls: ['./camera.component.css']
 })
 export class CameraComponent implements OnInit {
+  
   @Output() getPicture = new EventEmitter<WebcamImage>();
   showWebcam = true;
 
@@ -21,8 +23,7 @@ export class CameraComponent implements OnInit {
   private nextWebcam: Subject<boolean | string> = new Subject<boolean | string>();
   public webcamImage!: WebcamImage;
 
-  constructor() { }
-
+  constructor( private dataService: DataService ) { }
 
   ngOnInit(): void {
     WebcamUtil.getAvailableVideoInputs()
@@ -43,23 +44,7 @@ export class CameraComponent implements OnInit {
       { type: 'image/png' }
     );
 
-    const formData = new FormData();
-    formData.append('image', file);
-
-    console.log(formData);
-
-    fetch('http://localhost:5000/search', {
-      method: 'POST',
-      body: formData
-    })
-    .then ( response => response.json() )
-    .then ( response => {
-      console.log ( response )
-    })
-    .catch(error => {
-    // Handle any network or other errors
-    console.error('Error:', error);
-  });
+    this.dataService.updateData( file );
   }
 
 

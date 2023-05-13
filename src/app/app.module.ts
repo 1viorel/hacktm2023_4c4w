@@ -14,9 +14,7 @@ import { ResponseComponent } from './response/response.component';
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {MatButtonModule} from "@angular/material/button";
 import {HttpClientModule} from "@angular/common/http";
-
-
-
+import {DataService} from "./data.service"
 
 @NgModule({
   declarations: [
@@ -37,7 +35,7 @@ import {HttpClientModule} from "@angular/common/http";
     MatButtonModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [DataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

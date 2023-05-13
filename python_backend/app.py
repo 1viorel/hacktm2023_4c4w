@@ -94,7 +94,7 @@ def search_image():
     # DANGER 
     # DANGER
     # DANGER
-    file = {'image' : ('myfile', open("test_image.jpg", 'rb'))}
+    file = {'image' : ('myfile', open( image_path, 'rb'))}
     # DANGER 
     # DANGER
     # DANGER

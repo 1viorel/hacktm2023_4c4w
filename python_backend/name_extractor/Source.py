@@ -17,21 +17,23 @@ def GetSortedDict ( obj, hist ) :
 
 def ParseJsonResponseFromBing ( data, rvi = 3 ) :   
   hist = {}
-  
+      
   GetSortedDict ( data ['tags'][0]['actions'][0]['data']['value'], hist )
   GetSortedDict ( data ['tags'][0]['actions'][2]['data']['value'], hist )
+  cleanhist = {}
 
-  sorted_dict = sorted(hist.items(), key=lambda x: -x[1])
+  for x in hist :
+    if x.isalnum () :
+      cleanhist [ x ] = hist [ x ]
   
-  omega = []
+  sorted_dict = sorted(cleanhist.items(), key=lambda x: -x[1])
   
-  if ( len ( sorted_dict ) > rvi ) :
+  if ( len ( sorted_dict ) < rvi ) :
     rvi = len ( sorted_dict ) 
-  
   print ( "SORT DICT PRINT" )
-  print ( sorted_dict )
-  
-  for  i in range ( 0, rvi ) :
-    omega.append ( sorted_dict [ i ] [ 0 ] )
         
-  return omega
+  return [pair[0] for pair in sorted_dict][:rvi]
+
+# ~ with open('../response.json') as file:
+  # ~ data = json.load(file)
+  # ~ print ( ParseJsonResponseFromBing ( data ) )
